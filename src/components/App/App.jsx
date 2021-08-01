@@ -36,7 +36,7 @@ export default class App extends React.Component {
               to="/post"
               exact={true}
             >
-              Post
+              Posts
             </Link>
           </div>
 

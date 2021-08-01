@@ -2,63 +2,15 @@ const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
-module.exports = {
-  // webpack optimization mode
-  mode: 'development' === process.env.NODE_ENV ? 'development' : 'production',
-
-  // entry files
-  entry: [
-    './src/index.js' // react
-  ],
-
-  // output files and chunks
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'build/[name].js'
-  },
-
-  // module/loaders configuration
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
-      },
-      {
-        test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg)$/i,
-        loader: 'file-loader',
-        options: {
-          name(resourcePath, resourceQuery) {
-            if (process.env.NODE_ENV === 'development') {
-              return '[path][name].[ext]'
-            }
-
-            return '[contenthash].[ext]'
-          },
-          outputPath: 'images'
-        }
-      },
-      {
-        test: /\.(woff?2|eot|ttf)$/i,
-        loader: 'file-loader',
-        options: {
-          outputPath: 'fonts'
-        }
-      }
-    ]
-  },
-
-  // webpack plugins
-  plugins: [
+const getPlugins = isProd => {
+  const plugins = [
     // extract css to external stylesheet file
     new MiniCssExtractPlugin({
-      filename: 'build/styles.css'
+      filename: 'build/styles.[fullhash].css'
     }),
 
     // prepare HTML file with assets
@@ -77,36 +29,95 @@ module.exports = {
         }
       ]
     })
-  ],
+  ]
 
-  // resolve files configuration
-  resolve: {
-    // file extensions
-    extensions: ['.js', '.jsx', '.scss']
-  },
+  if (isProd) {
+    plugins.push(new CleanWebpackPlugin())
+  }
+  return plugins
+}
 
-  // webpack optimizations
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        default: false,
-        vendors: false,
+module.exports = (env, argv) => {
+  const isProd = argv.mode === 'production'
+  return {
+    // entry files
+    entry: [
+      './src/index.js' // react
+    ],
 
-        vendor: {
-          chunks: 'all', // both : consider sync + async chunks for evaluation
-          name: 'vendor', // name of chunk file
-          test: /node_modules/ // test regular expression
+    // output files and chunks
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'build/[name].[fullhash].js'
+    },
+
+    // module/loaders configuration
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          use: ['babel-loader']
+        },
+        {
+          test: /\.scss$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+        },
+        {
+          test: /\.(png|jpe?g|gif|svg)$/i,
+          loader: 'file-loader',
+          options: {
+            name(resourcePath, resourceQuery) {
+              if (process.env.NODE_ENV === 'development') {
+                return '[path][name].[ext]'
+              }
+
+              return '[contenthash].[ext]'
+            },
+            outputPath: 'images'
+          }
+        },
+        {
+          test: /\.(woff?2|eot|ttf)$/i,
+          loader: 'file-loader',
+          options: {
+            outputPath: 'fonts'
+          }
+        }
+      ]
+    },
+
+    // webpack plugins
+    plugins: getPlugins(isProd),
+
+    // resolve files configuration
+    resolve: {
+      // file extensions
+      extensions: ['.js', '.jsx', '.scss']
+    },
+
+    // webpack optimizations
+    optimization: {
+      minimize: isProd,
+      minimizer: isProd ? [new TerserPlugin(), new CssMinimizerPlugin()] : [],
+      splitChunks: {
+        chunks: 'all',
+        minSize: 0,
+        cacheGroups: {
+          // vendor: {
+          //   test: /[\\/]node_modules[\\/]/,
+          //   name(module) {
+          //     const packageName = module.context.match(
+          //       /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+          //     )[1]
+          //     return `npm.${packageName.replace('@', '')}`
+          //   }
+          // }
         }
       }
-    }
-  },
+    },
 
-  // development server configuration
-  //   devServer: {
-  //     port: 3000,
-  //     historyApiFallback: true
-  //   },
-
-  // generate source map
-  devtool: 'source-map'
+    // generate source map
+    devtool: !isProd && 'source-map'
+  }
 }
