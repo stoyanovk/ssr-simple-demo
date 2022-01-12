@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink as Link, Switch, Route } from 'react-router-dom'
+import { routes } from '../../routes'
 import './style.scss'
 
 // import child components
@@ -8,15 +9,8 @@ import Post from '../Post/Post'
 
 // export entry application component
 export default class App extends React.Component {
-  constructor() {
-    console.log('App.constructor()')
-    super()
-  }
-
   // render view
   render() {
-    console.log('App.render()')
-
     return (
       <div className="ui-app">
         <div>
@@ -33,7 +27,7 @@ export default class App extends React.Component {
             <Link
               className="ui-app__navigation__link"
               activeClassName="ui-app__navigation__link--active"
-              to="/post"
+              to="/posts"
               exact={true}
             >
               Posts
@@ -41,13 +35,14 @@ export default class App extends React.Component {
           </div>
 
           <Switch>
-            <Route
-              path="/"
-              exact={true}
-              render={() => <Counter name="Monica Geller" />}
-            />
-
-            <Route path="/post" exact={true} component={Post} />
+            {routes.map(route => (
+              <Route
+                key={route.path}
+                path={route.path}
+                exact={route.exact}
+                component={route.component}
+              />
+            ))}
           </Switch>
         </div>
       </div>

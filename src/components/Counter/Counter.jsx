@@ -3,8 +3,6 @@ import './style.scss'
 
 export default class Counter extends React.Component {
   constructor() {
-    console.log('Counter.constructor()')
-
     super()
 
     // bind methods
@@ -18,16 +16,12 @@ export default class Counter extends React.Component {
 
   // increment the `state.count` value
   increment() {
-    console.log('Counter.increment()')
-
     this.setState({
       count: this.state.count + 1
     })
   }
 
   render() {
-    console.log('Counter.render()')
-
     return (
       <div className="ui-counter">
         <p className="ui-counter__title">Counter Widget</p>

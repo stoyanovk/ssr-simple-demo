@@ -10,14 +10,15 @@ const getPlugins = isProd => {
   const plugins = [
     // extract css to external stylesheet file
     new MiniCssExtractPlugin({
-      filename: 'build/styles.[fullhash].css'
+      filename: isProd ? 'build/styles.[fullhash].css' : 'build/styles.css'
     }),
 
     // prepare HTML file with assets
     new HTMLWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, 'src/index.html'),
-      minify: false
+      minify: false,
+      inject: 'body'
     }),
 
     // copy static files from `src` to `dist`
@@ -47,8 +48,9 @@ module.exports = (env, argv) => {
 
     // output files and chunks
     output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: 'build/[name].[fullhash].js'
+      path: path.join(__dirname, 'dist'),
+      filename: isProd ? 'build/[name].[fullhash].js' : 'build/[name].js',
+      publicPath: '/'
     },
 
     // module/loaders configuration
@@ -104,15 +106,17 @@ module.exports = (env, argv) => {
         chunks: 'all',
         minSize: 0,
         cacheGroups: {
-          // vendor: {
-          //   test: /[\\/]node_modules[\\/]/,
-          //   name(module) {
-          //     const packageName = module.context.match(
-          //       /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-          //     )[1]
-          //     return `npm.${packageName.replace('@', '')}`
-          //   }
-          // }
+          vendor: isProd
+            ? {
+                test: /[\\/]node_modules[\\/]/,
+                name(module) {
+                  const packageName = module.context.match(
+                    /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+                  )[1]
+                  return `npm.${packageName.replace('@', '')}`
+                }
+              }
+            : {}
         }
       }
     },
