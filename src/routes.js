@@ -1,5 +1,6 @@
 import Counter from './components/Counter/Counter'
 import Post from './components/Post/Post'
+import Posts from './components/Posts/Posts'
 import NotFound from './components/NotFound/NotFound'
 
 export const routes = [
@@ -8,6 +9,12 @@ export const routes = [
     component: Counter,
     exact: true,
     getServerSideData() {}
+  },
+  {
+    path: '/posts',
+    component: Posts,
+    exact: true,
+    getServerSideData: Posts.getServerSideData
   },
   {
     path: '/posts/:id',

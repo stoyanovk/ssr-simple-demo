@@ -1,31 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useGetSSRdata } from '../MainContext/MainContext'
 import './style.scss'
 
+const getPost = id => {
+  return axios
+    .get(`https://jsonplaceholder.typicode.com/posts/${id}`)
+    .then(response => response.data)
+}
+
 const Post = () => {
   const data = useGetSSRdata()
-  console.log(data)
+  const [post, setPost] = useState(data?.post)
+  const { id } = useParams()
+  useEffect(() => {
+    if (!post) {
+      getPost(id).then(data => {
+        setPost(data)
+      })
+    }
+  }, [])
   return (
     <div className="ui-post">
       <p className="ui-post__title">Post Widget</p>
-      <div className="ui-post__body">
-        <p className="ui-post__body__title">{data.title}</p>
-        <p className="ui-post__body__description">{data.body}</p>
-      </div>
+      {post && (
+        <div className="ui-post__body">
+          <p className="ui-post__body__title">{post.title}</p>
+          <p className="ui-post__body__description">{post.body}</p>
+        </div>
+      )}
     </div>
   )
 }
 
 Post.getServerSideData = req => {
-  return axios
-    .get(`https://jsonplaceholder.typicode.com/posts/${req.params.id}`)
-    .then(response => {
-      return {
-        title: response.data.title,
-        body: response.data.body
-      }
-    })
+  return getPost(req.params.id).then(post => {
+    return {
+      post
+    }
+  })
 }
 
 export default Post
