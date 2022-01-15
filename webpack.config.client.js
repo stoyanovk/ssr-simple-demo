@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const { InjectManifest } = require('workbox-webpack-plugin')
 
 const getPlugins = isProd => {
   const plugins = [
@@ -13,12 +14,20 @@ const getPlugins = isProd => {
       filename: isProd ? 'build/styles.[fullhash].css' : 'build/styles.css'
     }),
 
-    // prepare HTML file with assets
     new HTMLWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, 'src/index.html'),
       minify: false,
       inject: 'body'
+    }),
+
+    new HTMLWebpackPlugin({
+      filename: 'offline.html',
+      template: path.resolve(__dirname, 'src/offline.html')
+    }),
+
+    new InjectManifest({
+      swSrc: './src/service-worker.js'
     }),
 
     // copy static files from `src` to `dist`
