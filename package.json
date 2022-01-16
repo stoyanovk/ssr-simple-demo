@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "front": "webpack --mode development --config ./webpack.config.client.js",
-    "build:front": "webpack --mode production --config ./webpack.config.client.js",
     "build:webpack": "webpack --mode production",
     "start:webpack": "webpack --mode development --watch",
-    "start:server": "nodemon ./dist/server.js"
+    "start:server": "nodemon ./static/server.js",
+    "start": "node ./static/server.js"
   },
   "author": "",
   "license": "ISC",

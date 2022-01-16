@@ -11,6 +11,7 @@ const app = express()
 require('regenerator-runtime/runtime')
 
 app.use(express.static(path.resolve(__dirname, '../dist')))
+app.use(express.static(path.resolve(__dirname, '../static')))
 
 app.get('*', async (req, res) => {
   try {
