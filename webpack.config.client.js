@@ -5,20 +5,31 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const { InjectManifest } = require('workbox-webpack-plugin')
 
-const getPlugins = isProd => {
+const getPlugins = ({ isProd, analyze }) => {
   const plugins = [
     // extract css to external stylesheet file
     new MiniCssExtractPlugin({
       filename: isProd ? 'build/styles.[fullhash].css' : 'build/styles.css'
     }),
 
-    // prepare HTML file with assets
     new HTMLWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, 'src/index.html'),
       minify: false,
       inject: 'body'
+    }),
+
+    new HTMLWebpackPlugin({
+      filename: 'offline.html',
+      template: path.resolve(__dirname, 'src/offline.html')
+    }),
+
+    new InjectManifest({
+      swSrc: './src/service-worker.js'
     }),
 
     // copy static files from `src` to `dist`
@@ -32,13 +43,19 @@ const getPlugins = isProd => {
     })
   ]
 
+  if (analyze) {
+    plugins.push(new BundleAnalyzerPlugin())
+  }
+
   if (isProd) {
     plugins.push(new CleanWebpackPlugin())
   }
+
   return plugins
 }
 
 module.exports = (env, argv) => {
+  const analyze = env.analyze
   const isProd = argv.mode === 'production'
   return {
     // entry files
@@ -90,7 +107,7 @@ module.exports = (env, argv) => {
     },
 
     // webpack plugins
-    plugins: getPlugins(isProd),
+    plugins: getPlugins({ isProd, analyze }),
 
     // resolve files configuration
     resolve: {
