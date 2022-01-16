@@ -7,6 +7,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const { InjectManifest } = require('workbox-webpack-plugin')
 
 const getPlugins = ({ isProd, analyze }) => {
   const plugins = [
@@ -15,12 +16,20 @@ const getPlugins = ({ isProd, analyze }) => {
       filename: isProd ? 'build/styles.[fullhash].css' : 'build/styles.css'
     }),
 
-    // prepare HTML file with assets
     new HTMLWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, 'src/index.html'),
       minify: false,
       inject: 'body'
+    }),
+
+    new HTMLWebpackPlugin({
+      filename: 'offline.html',
+      template: path.resolve(__dirname, 'src/offline.html')
+    }),
+
+    new InjectManifest({
+      swSrc: './src/service-worker.js'
     }),
 
     // copy static files from `src` to `dist`
