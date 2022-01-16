@@ -1,17 +1,12 @@
 import React from 'react'
 import { NavLink as Link, Switch, Route } from 'react-router-dom'
+import { MainContext } from '../MainContext/MainContext'
 import { routes } from '../../routes'
 import './style.scss'
 
-// import child components
-import Counter from '../Counter/Counter'
-import Post from '../Post/Post'
-
-// export entry application component
-export default class App extends React.Component {
-  // render view
-  render() {
-    return (
+const App = ({ data }) => {
+  return (
+    <MainContext initialData={data}>
       <div className="ui-app">
         <div>
           <div className="ui-app__navigation">
@@ -46,6 +41,7 @@ export default class App extends React.Component {
           </Switch>
         </div>
       </div>
-    )
-  }
+    </MainContext>
+  )
 }
+export default App

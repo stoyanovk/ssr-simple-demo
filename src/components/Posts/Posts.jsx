@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { useGetSSRdata } from '../MainContext/MainContext'
+import { getPosts } from '../../api/posts'
 import './style.scss'
-
-const getPosts = () => {
-  return axios
-    .get(`https://jsonplaceholder.typicode.com/posts`)
-    .then(response => response.data)
-}
 
 const Posts = () => {
   const data = useGetSSRdata()

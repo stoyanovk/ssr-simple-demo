@@ -1,26 +1,24 @@
 const express = require('express')
-const fs = require('fs')
 const path = require('path')
 const React = require('react')
-const ReactDOMServer = require('react-dom/server')
+const { renderToString } = require('react-dom/server')
 const { StaticRouter, matchPath } = require('react-router-dom')
 const { routes } = require('../src/routes')
+const { ChunkExtractor } = require('@loadable/server')
 const App = require('../src/components/App/App').default
-const { MainContext } = require('../src/components/MainContext/MainContext')
+
+import { renderHTML } from './renderHTML'
 const app = express()
 require('regenerator-runtime/runtime')
 
 app.use(express.static(path.resolve(__dirname, '../dist')))
 app.use(express.static(path.resolve(__dirname, '../static')))
 
+const statsFile = path.resolve('./dist/loadable-stats.json')
+const chunkExtractor = new ChunkExtractor({ statsFile })
+
 app.get('*', async (req, res) => {
   try {
-    let indexHTML = fs.readFileSync(
-      path.resolve(__dirname, '../dist/index.html'),
-      {
-        encoding: 'utf8'
-      }
-    )
     const currentRoute = routes.find(route => {
       const matchedPath = matchPath(req.url, { path: route.path, exact: true })
       if (matchedPath) {
@@ -28,30 +26,30 @@ app.get('*', async (req, res) => {
       }
       return matchedPath
     })
+
     const data = await currentRoute.getServerSideData(req, res)
     const context = {}
-    const appHTML = ReactDOMServer.renderToString(
-      <MainContext initialData={data}>
+
+    const appHTML = renderToString(
+      chunkExtractor.collectChunks(
         <StaticRouter context={context} location={req.originalUrl}>
-          <App />
+          <App data={data} />
         </StaticRouter>
-      </MainContext>
+      )
     )
 
-    indexHTML = indexHTML.replace(
-      '<div id="root"></div>',
-      `<div id="root">${appHTML}</div>
-    <script>
-      window.__INITIAL_STATE__=${JSON.stringify(data)};
-    </script>
-    `
-    )
-    // set header and status
+    const indexHTML = renderHTML({
+      app: appHTML,
+      state: JSON.stringify(data),
+      chunkExtractor
+    })
+
     res.contentType('text/html')
     res.status(200)
 
     return res.send(indexHTML)
   } catch (e) {
+    console.log(e, 'error')
     res.send(e)
   }
 })
