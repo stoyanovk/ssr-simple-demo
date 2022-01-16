@@ -5,8 +5,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-const getPlugins = isProd => {
+const getPlugins = ({ isProd, analyze }) => {
   const plugins = [
     // extract css to external stylesheet file
     new MiniCssExtractPlugin({
@@ -32,13 +34,19 @@ const getPlugins = isProd => {
     })
   ]
 
+  if (analyze) {
+    plugins.push(new BundleAnalyzerPlugin())
+  }
+
   if (isProd) {
     plugins.push(new CleanWebpackPlugin())
   }
+
   return plugins
 }
 
 module.exports = (env, argv) => {
+  const analyze = env.analyze
   const isProd = argv.mode === 'production'
   return {
     // entry files
@@ -90,7 +98,7 @@ module.exports = (env, argv) => {
     },
 
     // webpack plugins
-    plugins: getPlugins(isProd),
+    plugins: getPlugins({ isProd, analyze }),
 
     // resolve files configuration
     resolve: {
