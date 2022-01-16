@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const LoadablePlugin = require('@loadable/webpack-plugin')
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const { InjectManifest } = require('workbox-webpack-plugin')
@@ -40,7 +41,9 @@ const getPlugins = ({ isProd, analyze }) => {
           to: path.resolve(__dirname, 'dist/assets')
         }
       ]
-    })
+    }),
+
+    new LoadablePlugin()
   ]
 
   if (analyze) {

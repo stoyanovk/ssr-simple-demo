@@ -9,5 +9,6 @@ module.exports = {
       }
     ],
     '@babel/react'
-  ]
+  ],
+  plugins: ['@loadable/babel-plugin']
 }

@@ -1,29 +1,48 @@
-import Counter from './components/Counter/Counter'
-import Post from './components/Post/Post'
-import Posts from './components/Posts/Posts'
-import NotFound from './components/NotFound/NotFound'
+import loadable from '@loadable/component'
+import { getPost, getPosts } from './api/posts'
+const loadableCounter = loadable(() =>
+  import(/* webpackChunkName: "Counter" */ './components/Counter/Counter')
+)
+const loadablePost = loadable(() =>
+  import(/* webpackChunkName: "Post" */ './components/Post/Post')
+)
+const loadablePosts = loadable(() =>
+  import(/* webpackChunkName: "Posts" */ './components/Posts/Posts')
+)
+const loadableNotFound = loadable(() =>
+  import(/* webpackChunkName: "NotFound" */ './components/NotFound/NotFound')
+)
 
 export const routes = [
   {
     path: '/',
-    component: Counter,
+    component: loadableCounter,
     exact: true,
     getServerSideData() {}
   },
   {
     path: '/posts',
-    component: Posts,
+    component: loadablePosts,
     exact: true,
-    getServerSideData: Posts.getServerSideData
+    getServerSideData() {
+      return getPosts().then(posts => {
+        return { posts }
+      })
+    }
   },
   {
     path: '/posts/:id',
-    component: Post,
-    getServerSideData: Post.getServerSideData
+    component: loadablePost,
+    exact: true,
+    getServerSideData(req) {
+      return getPost(req.params.id).then(post => {
+        return { post }
+      })
+    }
   },
   {
     path: '*',
-    component: NotFound,
+    component: loadableNotFound,
     getServerSideData() {}
   }
 ]

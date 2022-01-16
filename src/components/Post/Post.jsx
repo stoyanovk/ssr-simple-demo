@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
 import { useGetSSRdata } from '../MainContext/MainContext'
+import { getPost } from '../../api/posts'
 import './style.scss'
-
-const getPost = id => {
-  return axios
-    .get(`https://jsonplaceholder.typicode.com/posts/${id}`)
-    .then(response => response.data)
-}
 
 const Post = () => {
   const data = useGetSSRdata()
@@ -32,14 +26,6 @@ const Post = () => {
       )}
     </div>
   )
-}
-
-Post.getServerSideData = req => {
-  return getPost(req.params.id).then(post => {
-    return {
-      post
-    }
-  })
 }
 
 export default Post
