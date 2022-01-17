@@ -18,15 +18,8 @@ const getPlugins = ({ isProd, analyze }) => {
     }),
 
     new HTMLWebpackPlugin({
-      filename: 'index.html',
-      template: path.resolve(__dirname, 'src/index.html'),
-      minify: false,
-      inject: 'body'
-    }),
-
-    new HTMLWebpackPlugin({
       filename: 'offline.html',
-      template: path.resolve(__dirname, 'src/offline.html')
+      template: path.resolve(__dirname, 'src/assets/offline.html')
     }),
 
     new InjectManifest({
