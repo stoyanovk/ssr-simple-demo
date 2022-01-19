@@ -9,6 +9,7 @@
     "build:analyze": "webpack --mode production --env analyze=true",
     "start:webpack": "webpack --mode development --watch",
     "start:server": "nodemon ./static/server.js",
+    "dev": "webpack --mode development --watch & nodemon ./static/server.js",
     "start": "node ./static/server.js"
   },
   "author": "",

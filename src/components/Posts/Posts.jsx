@@ -2,20 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useGetSSRdata } from '../MainContext/MainContext'
 import { getPosts } from '../../api/posts'
+import { useUrlMapper, useGenerateUrl } from '../../hooks/useUrlMapper'
+
+import { Pagination } from '../Pagination'
 import './style.scss'
 
 const Posts = () => {
   const data = useGetSSRdata()
+  const { query } = useUrlMapper()
+  const generateUrl = useGenerateUrl()
   const [posts, setPosts] = useState(data?.posts)
+  const currentPage = Number(query.page) || 1
   useEffect(() => {
     if (!posts) {
-      getPosts().then(data => {
-        console.log(data)
+      getPosts({ page: currentPage }).then(data => {
         setPosts(data)
       })
     }
   }, [])
-
+  const nextPageUrl = page => generateUrl({ page })
   return (
     <div className="ui-post">
       <p className="ui-post__title">Posts Widget</p>
@@ -28,15 +33,13 @@ const Posts = () => {
           </Link>
         )
       })}
+      <Pagination
+        currentPage={currentPage}
+        perPage={10}
+        nextPageUrl={nextPageUrl}
+      />
     </div>
   )
-}
-
-Posts.getServerSideData = async req => {
-  const posts = await getPosts()
-  return {
-    posts
-  }
 }
 
 export default Posts

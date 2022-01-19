@@ -1,0 +1,17 @@
+.d-flex {
+  display: flex;
+}
+
+.page {
+  border: 1px solid #3d3d3d;
+  border-radius: 3px;
+  padding: 3px 5px;
+  text-decoration: none;
+  color: #3d3d3d;
+  margin: 0 3px;
+}
+
+.disable {
+  opacity: 0.7;
+  pointer-events: none;
+}
