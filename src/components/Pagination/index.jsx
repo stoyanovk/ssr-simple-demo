@@ -5,7 +5,6 @@ import './style.scss'
 
 export const Pagination = ({ perPage, currentPage, total, nextPageUrl }) => {
   const pages = getButtons(currentPage, perPage, total)
-  console.log(pages)
   return (
     <div className="d-flex">
       {pages.map(({ type, value, disabled }, i) => {

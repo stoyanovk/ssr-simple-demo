@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useGetSSRdata } from '../MainContext/MainContext'
 import { getPosts } from '../../api/posts'
@@ -13,6 +13,7 @@ const Posts = () => {
   const generateUrl = useGenerateUrl()
   const [posts, setPosts] = useState(data?.posts)
   const currentPage = Number(query.page) || 1
+  const isFirstRender = useRef(true)
   useEffect(() => {
     if (!posts) {
       getPosts({ page: currentPage }).then(data => {
@@ -20,6 +21,17 @@ const Posts = () => {
       })
     }
   }, [])
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+    getPosts({ page: currentPage }).then(data => {
+      setPosts(data)
+    })
+  }, [query.page])
+
   const nextPageUrl = page => generateUrl({ page })
   return (
     <div className="ui-post">
