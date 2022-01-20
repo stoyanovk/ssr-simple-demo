@@ -17,7 +17,7 @@ export const renderHTML = ({ app, state, chunkExtractor }) => {
         <div id="root">${app}</div>
         <script>
           window.__INITIAL_STATE__=${state};
-        </script>
+        </script>        
         ${scriptTags}
       </body>
     </html>

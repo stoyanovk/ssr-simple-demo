@@ -24,8 +24,8 @@ export const routes = [
     path: '/posts',
     component: loadablePosts,
     exact: true,
-    getServerSideData() {
-      return getPosts().then(posts => {
+    getServerSideData(req) {
+      return getPosts({ page: req.query.page }).then(posts => {
         return { posts }
       })
     }

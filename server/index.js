@@ -1,15 +1,15 @@
-const express = require('express')
-const path = require('path')
-const React = require('react')
-const { renderToString } = require('react-dom/server')
-const { StaticRouter, matchPath } = require('react-router-dom')
-const { routes } = require('../src/routes')
-const { ChunkExtractor } = require('@loadable/server')
-const App = require('../src/components/App/App').default
+import express from 'express'
+import path from 'path'
+import React from 'react'
+import { renderToString } from 'react-dom/server'
+import { StaticRouter, matchPath } from 'react-router-dom'
+import { routes } from '../src/routes'
+import { ChunkExtractor } from '@loadable/server'
+import App from '../src/components/App/App'
 
 import { renderHTML } from './renderHTML'
 const app = express()
-require('regenerator-runtime/runtime')
+import 'regenerator-runtime/runtime'
 
 app.use(express.static(path.resolve(__dirname, '../dist')))
 app.use(express.static(path.resolve(__dirname, '../static')))
@@ -20,20 +20,22 @@ const chunkExtractor = new ChunkExtractor({ statsFile })
 app.get('*', async (req, res) => {
   try {
     const currentRoute = routes.find(route => {
-      const matchedPath = matchPath(req.url, { path: route.path, exact: true })
+      const matchedPath = matchPath(req.path, {
+        path: route.path,
+        exact: true
+      })
       if (matchedPath) {
         req.params = matchedPath.params
       }
       return matchedPath
     })
-
     const data = await currentRoute.getServerSideData(req, res)
     const context = {}
 
     const appHTML = renderToString(
       chunkExtractor.collectChunks(
         <StaticRouter context={context} location={req.originalUrl}>
-          <App data={data} />
+          <App ssrData={data} />
         </StaticRouter>
       )
     )

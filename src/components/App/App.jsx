@@ -2,11 +2,12 @@ import React from 'react'
 import { NavLink as Link, Switch, Route } from 'react-router-dom'
 import { MainContext } from '../MainContext/MainContext'
 import { routes } from '../../routes'
+
 import './style.scss'
 
-const App = ({ data }) => {
+const App = ({ ssrData }) => {
   return (
-    <MainContext initialData={data}>
+    <MainContext ssrData={ssrData}>
       <div className="ui-app">
         <div>
           <div className="ui-app__navigation">

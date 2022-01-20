@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { useGetSSRdata } from '../MainContext/MainContext'
 import { getPost } from '../../api/posts'
+import { useUrlMapper } from '../../hooks/useUrlMapper'
 import './style.scss'
 
 const Post = () => {
   const data = useGetSSRdata()
   const [post, setPost] = useState(data?.post)
-  const { id } = useParams()
+  const { params } = useUrlMapper()
   useEffect(() => {
     if (!post) {
-      getPost(id).then(data => {
+      getPost(params.id).then(data => {
         setPost(data)
       })
     }
