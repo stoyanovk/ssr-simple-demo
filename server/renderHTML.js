@@ -1,4 +1,4 @@
-export const renderHTML = ({ app, state, chunkExtractor }) => {
+const renderHTML = ({ app, state, chunkExtractor }) => {
   const scriptTags = chunkExtractor.getScriptTags()
   const linkTags = chunkExtractor.getLinkTags()
   const styleTags = chunkExtractor.getStyleTags()
@@ -23,3 +23,4 @@ export const renderHTML = ({ app, state, chunkExtractor }) => {
     </html>
     `
 }
+module.exports = renderHTML

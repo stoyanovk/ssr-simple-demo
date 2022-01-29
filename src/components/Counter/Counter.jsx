@@ -6,7 +6,7 @@ const Counter = () => {
 
   return (
     <div className="ui-counter">
-      <p className="ui-counter__title">Counter Widget</p>
+      <p className="ui-counter__title"> Widget</p>
 
       <div className="ui-counter__body">
         <p className="ui-counter__body__name">some count</p>
