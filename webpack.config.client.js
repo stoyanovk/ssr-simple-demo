@@ -1,5 +1,4 @@
 const path = require('path')
-const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
@@ -17,14 +16,9 @@ const getPlugins = ({ isProd, analyze }) => {
       filename: isProd ? 'build/styles.[fullhash].css' : 'build/styles.css'
     }),
 
-    new HTMLWebpackPlugin({
-      filename: 'offline.html',
-      template: path.resolve(__dirname, 'src/assets/offline.html')
-    }),
-
-    new InjectManifest({
-      swSrc: './src/service-worker.js'
-    }),
+    // new InjectManifest({
+    //   swSrc: './src/service-worker.js'
+    // }),
 
     // copy static files from `src` to `dist`
     new CopyWebpackPlugin({
