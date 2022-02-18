@@ -60,16 +60,6 @@ module.exports = (env, argv) => {
       publicPath: '/'
     },
 
-    devServer: {
-      devMiddleware: {
-        publicPath: '/dist',
-        index: true,
-        serverSideRender: true,
-        writeToDisk: true
-      },
-      port: 3000
-    },
-
     // module/loaders configuration
     module: {
       rules: [
