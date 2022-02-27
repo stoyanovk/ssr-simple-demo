@@ -16,9 +16,9 @@ const getPlugins = ({ isProd, analyze }) => {
       filename: isProd ? 'build/styles.[fullhash].css' : 'build/styles.css'
     }),
 
-    // new InjectManifest({
-    //   swSrc: './src/service-worker.js'
-    // }),
+    new InjectManifest({
+      swSrc: './src/service-worker.js'
+    }),
 
     // copy static files from `src` to `dist`
     new CopyWebpackPlugin({

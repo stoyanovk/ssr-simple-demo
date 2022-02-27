@@ -14,3 +14,16 @@ loadableReady(() => {
     document.getElementById('root')
   )
 })
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/service-worker.js')
+      .then(r => {
+        console.log(r.scope)
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  })
+}
