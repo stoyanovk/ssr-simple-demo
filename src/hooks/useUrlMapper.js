@@ -8,6 +8,7 @@ export const getUrlQueryParams = url => {
   }
   return query
 }
+
 export const useUrlMapper = () => {
   const params = useParams()
   const { search, pathname } = useLocation()

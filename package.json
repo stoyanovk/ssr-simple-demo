@@ -8,7 +8,8 @@
     "build:analyze": "webpack --mode production --env analyze=true",
     "webpack": "webpack --mode development --watch",
     "server": "nodemon ./static/server.js",
-    "start": "node ./static/server.js"
+    "start": "node ./static/server.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +19,8 @@
     "@babel/preset-react": "^7.13.13",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/webpack-plugin": "^5.15.2",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.3",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^4.0.0-alpha.0",
     "copy-webpack-plugin": "^8.1.1",
@@ -25,6 +28,7 @@
     "css-minimizer-webpack-plugin": "^3.0.2",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.1",
+    "jest": "^27.5.1",
     "mini-css-extract-plugin": "^1.6.0",
     "node-sass": "^6.0.0",
     "nodemon": "^2.0.7",

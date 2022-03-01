@@ -6,7 +6,7 @@ import './style.scss'
 export const Pagination = ({ perPage, currentPage, total, nextPageUrl }) => {
   const pages = getButtons(currentPage, perPage, total)
   return (
-    <div className="d-flex">
+    <div data-test="pagination" className="d-flex">
       {pages.map(({ type, value, disabled }, i) => {
         const Button = buttons[type]
         return (

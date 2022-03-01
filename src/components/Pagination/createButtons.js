@@ -16,6 +16,8 @@ export const getButtons = (currentPage, perPage, total = 100) => {
   const pages = total / perPage
   const neighbor = 1
 
+  if (total < perPage) return []
+
   if (currentPage !== 1) {
     buttons.push(createButton(BUTTON_TYPES.PREV, currentPage - 1))
   }
