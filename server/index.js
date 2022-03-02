@@ -3,9 +3,9 @@ import path from 'path'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter, matchPath } from 'react-router-dom'
-import { routes } from '../src/routes'
+import { routes } from '@/routes'
 import { ChunkExtractor } from '@loadable/server'
-import App from '../src/components/App/App'
+import App from '@/components/App/App'
 
 import { renderHTML } from './renderHTML'
 const app = express()

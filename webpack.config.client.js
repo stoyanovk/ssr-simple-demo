@@ -102,6 +102,10 @@ module.exports = (env, argv) => {
     // resolve files configuration
     resolve: {
       // file extensions
+      alias: {
+        '@': path.resolve(__dirname, 'src')
+      },
+
       extensions: ['.js', '.jsx', '.scss']
     },
 

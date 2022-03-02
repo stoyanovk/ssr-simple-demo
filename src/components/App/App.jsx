@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink as Link, Switch, Route } from 'react-router-dom'
-import { MainContext } from '../MainContext/MainContext'
-import { routes } from '../../routes'
+import { MainContext } from '@/components/MainContext/MainContext'
+import { routes } from '@/routes'
 
 import './style.scss'
 

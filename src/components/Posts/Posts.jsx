@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { useGetSSRdata } from '../MainContext/MainContext'
-import { getPosts } from '../../api/posts'
-import { useUrlMapper, useGenerateUrl } from '../../hooks/useUrlMapper'
+import { useGetSSRdata } from '@/components/MainContext/MainContext'
+import { getPosts } from '@/api/posts'
+import { useUrlMapper, useGenerateUrl } from '@/hooks/useUrlMapper'
 
-import { Pagination } from '../Pagination'
+import { Pagination } from '@/components/Pagination'
 import './style.scss'
 
 const Posts = () => {

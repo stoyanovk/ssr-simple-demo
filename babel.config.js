@@ -10,5 +10,5 @@ module.exports = {
     ],
     '@babel/react'
   ],
-  plugins: ['@loadable/babel-plugin']
+  plugins: ['@loadable/babel-plugin', 'babel-plugin-webpack-alias']
 }

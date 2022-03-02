@@ -34,6 +34,9 @@ module.exports = {
 
   // resolve files configuration
   resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src')
+    },
     // file extensions
     extensions: ['.js', '.jsx']
   },

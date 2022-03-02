@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useGetSSRdata } from '../MainContext/MainContext'
-import { getPost } from '../../api/posts'
-import { useUrlMapper } from '../../hooks/useUrlMapper'
+import { useGetSSRdata } from '@/components/MainContext/MainContext'
+import { getPost } from '@/api/posts'
+import { useUrlMapper } from '@/hooks/useUrlMapper'
 import './style.scss'
 
 const Post = () => {
