@@ -69,14 +69,24 @@ module.exports = (env, argv) => {
           use: ['babel-loader']
         },
         {
-          test: /\.scss$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+          test: /\.css$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader', //2
+              options: {
+                modules: {
+                  localIdentName: '[name]__[local]--[hash:base64:5]'
+                }
+              }
+            }
+          ]
         },
         {
           test: /\.(png|jpe?g|gif|svg)$/i,
           loader: 'file-loader',
           options: {
-            name(resourcePath, resourceQuery) {
+            name() {
               if (process.env.NODE_ENV === 'development') {
                 return '[path][name].[ext]'
               }

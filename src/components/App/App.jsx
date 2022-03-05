@@ -3,17 +3,17 @@ import { NavLink as Link, Switch, Route } from 'react-router-dom'
 import { MainContext } from '@/components/MainContext/MainContext'
 import { routes } from '@/routes'
 
-import './style.scss'
-
+import s from './style.css'
+console.log(s, 's')
 const App = ({ ssrData }) => {
   return (
     <MainContext ssrData={ssrData}>
-      <div className="ui-app">
+      <div className={s.app}>
         <div>
-          <div className="ui-app__navigation">
+          <div className={s.navigation}>
             <Link
-              className="ui-app__navigation__link"
-              activeClassName="ui-app__navigation__link--active"
+              className={s.link}
+              activeClassName={s.linkActive}
               to="/"
               exact={true}
             >
@@ -21,8 +21,8 @@ const App = ({ ssrData }) => {
             </Link>
 
             <Link
-              className="ui-app__navigation__link"
-              activeClassName="ui-app__navigation__link--active"
+              className={s.link}
+              activeClassName={s.linkActive}
               to="/posts"
               exact={true}
             >

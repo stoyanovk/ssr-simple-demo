@@ -1,7 +1,7 @@
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 
-const ignoreRegExp = /\.(scss|css|png|jpe?g|gif|svg|woff?2|eot|ttf)$/
+const ignoreRegExp = /\.(png|jpe?g|gif|svg|woff?2|eot|ttf)$/
 module.exports = {
   name: 'server',
   target: 'node',
@@ -28,6 +28,21 @@ module.exports = {
       {
         test: ignoreRegExp,
         use: 'null-loader'
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'css-loader', //2
+            options: {
+              import: false,
+              modules: {
+                localIdentName: '[name]__[local]--[hash:base64:5]',
+                exportOnlyLocals: true
+              }
+            }
+          }
+        ]
       }
     ]
   },

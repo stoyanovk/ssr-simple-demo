@@ -5,8 +5,9 @@ import { getPosts } from '@/api/posts'
 import { useUrlMapper, useGenerateUrl } from '@/hooks/useUrlMapper'
 
 import { Pagination } from '@/components/Pagination'
-import './style.scss'
+import s from './style.css'
 
+console.log(s, 'sdsds')
 const Posts = () => {
   const data = useGetSSRdata()
   const { query } = useUrlMapper()
@@ -34,13 +35,13 @@ const Posts = () => {
 
   const nextPageUrl = page => generateUrl({ page })
   return (
-    <div className="ui-post">
-      <p className="ui-post__title">Posts Widget</p>
+    <div className={s.posts}>
+      <p className={s.title}>Posts Widget</p>
       {posts?.map((post, i) => {
         return (
           <Link key={i} to={`/posts/${post.id}`}>
-            <div className="ui-post__body mb">
-              <p className="ui-post__body__title">{post.title}</p>
+            <div className={`${s.body} ${s.mb}`}>
+              <p className={s.bodyTitle}>{post.title}</p>
             </div>
           </Link>
         )

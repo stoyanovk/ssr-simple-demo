@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useGetSSRdata } from '@/components/MainContext/MainContext'
 import { getPost } from '@/api/posts'
 import { useUrlMapper } from '@/hooks/useUrlMapper'
-import './style.scss'
+import s from './style.css'
 
 const Post = () => {
   const data = useGetSSRdata()
@@ -16,12 +16,12 @@ const Post = () => {
     }
   }, [])
   return (
-    <div className="ui-post">
-      <p className="ui-post__title">Post Widget</p>
+    <div className={s.post}>
+      <p className={s.title}>Post Widget</p>
       {post && (
-        <div className="ui-post__body">
-          <p className="ui-post__body__title">{post.title}</p>
-          <p className="ui-post__body__description">{post.body}</p>
+        <div className={s.body}>
+          <p className={s.bodyTitle}>{post.title}</p>
+          <p className={s.description}>{post.body}</p>
         </div>
       )}
     </div>
