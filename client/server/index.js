@@ -2,12 +2,15 @@ import express from 'express'
 import path from 'path'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import { StaticRouter, matchPath } from 'react-router-dom'
-import { routes } from '@/routes'
+import { StaticRouter } from 'react-router-dom'
+import { ApolloProvider } from '@apollo/client'
+import { getMarkupFromTree } from '@apollo/client/react/ssr'
 import { ChunkExtractor } from '@loadable/server'
 import App from '@/components/App/App'
 
+import { getApolloCLient } from './apollo'
 import { renderHTML } from './renderHTML'
+
 const app = express()
 import 'regenerator-runtime/runtime'
 
@@ -19,30 +22,25 @@ const chunkExtractor = new ChunkExtractor({ statsFile })
 
 app.get('*', async (req, res) => {
   try {
-    const currentRoute = routes.find(route => {
-      const matchedPath = matchPath(req.path, {
-        path: route.path,
-        exact: true
-      })
-      if (matchedPath) {
-        req.params = matchedPath.params
-      }
-      return matchedPath
-    })
-    const data = await currentRoute.getServerSideData(req, res)
+    const client = getApolloCLient(req)
     const context = {}
 
-    const appHTML = renderToString(
-      chunkExtractor.collectChunks(
+    const appHTML = chunkExtractor.collectChunks(
+      <ApolloProvider client={client}>
         <StaticRouter context={context} location={req.originalUrl}>
-          <App ssrData={data} />
+          <App />
         </StaticRouter>
-      )
+      </ApolloProvider>
     )
 
+    const html = await getMarkupFromTree({
+      tree: appHTML,
+      renderFunction: renderToString
+    })
+
     const indexHTML = renderHTML({
-      app: appHTML,
-      state: JSON.stringify(data),
+      app: html,
+      state: client.extract(),
       chunkExtractor
     })
 

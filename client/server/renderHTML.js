@@ -16,7 +16,10 @@ export const renderHTML = ({ app, state, chunkExtractor }) => {
       <body style="background-color: #eee">
         <div id="root">${app}</div>
         <script>
-          window.__INITIAL_STATE__=${state};
+          window.__APOLLO_STATE__=${JSON.stringify(state).replace(
+            /</g,
+            '\\u003c'
+          )};
         </script>        
         ${scriptTags}
       </body>

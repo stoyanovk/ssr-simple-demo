@@ -1,20 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { useGetSSRdata } from '@/components/MainContext/MainContext'
-import { getPost } from '@/api/posts'
+import React from 'react'
+import { useQuery, gql } from '@apollo/client'
 import { useUrlMapper } from '@/hooks/useUrlMapper'
 import s from './style.css'
 
-const Post = () => {
-  const data = useGetSSRdata()
-  const [post, setPost] = useState(data?.post)
-  const { params } = useUrlMapper()
-  useEffect(() => {
-    if (!post) {
-      getPost(params.id).then(data => {
-        setPost(data)
-      })
+const getPost = gql`
+  query Post($postId: Int) {
+    post(id: $postId) {
+      id
+      title
+      body
     }
-  }, [])
+  }
+`
+const Post = () => {
+  const { params } = useUrlMapper()
+  const { data, loading, error } = useQuery(getPost, {
+    ssr: true,
+    variables: {
+      postId: Number(params.id)
+    }
+  })
+  if (!data || loading) return <h2>Loading</h2>
+  const { post } = data
   return (
     <div className={s.post}>
       <p className={s.title}>Post Widget</p>

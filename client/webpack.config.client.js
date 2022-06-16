@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
@@ -30,7 +31,11 @@ const getPlugins = ({ isProd, analyze }) => {
       ]
     }),
 
-    new LoadablePlugin()
+    new LoadablePlugin(),
+
+    new webpack.DefinePlugin({
+      GRAPH_URL: JSON.stringify(process.env.GRAPH_URL)
+    })
   ]
 
   if (analyze) {

@@ -4,8 +4,8 @@ import { MainContext } from '@/components/MainContext/MainContext'
 import { routes } from '@/routes'
 
 import s from './style.css'
-console.log(s, 's')
-const App = ({ ssrData }) => {
+
+const App = ({ ssrData = {} }) => {
   return (
     <MainContext ssrData={ssrData}>
       <div className={s.app}>

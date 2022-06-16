@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  client:
+    build:
+      context: './client'
+      dockerfile: 'Dockerfile'
+    command: npm run dev
+    environment:
+      GRAPH_URL: http://localhost:5000
+      _GRAPH_URL: http://graph_server:5000
+    volumes:
+      - ./client:/work/client
+    ports:
+      - '9000:9000'
+    depends_on:
+      - graph_server
+  graph_server:
+    build:
+      context: './graphServer'
+      dockerfile: 'Dockerfile'
+    command: npm run dev
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./graphServer/src:/work/graphServer/src

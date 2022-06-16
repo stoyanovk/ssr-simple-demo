@@ -1,5 +1,4 @@
 import loadable from '@loadable/component'
-import { getPost, getPosts } from './api/posts'
 const loadableCounter = loadable(() =>
   import(/* webpackChunkName: "Counter" */ './components/Counter/Counter')
 )
@@ -17,32 +16,20 @@ export const routes = [
   {
     path: '/',
     component: loadableCounter,
-    exact: true,
-    getServerSideData() {}
+    exact: true
   },
   {
     path: '/posts',
     component: loadablePosts,
-    exact: true,
-    getServerSideData(req) {
-      return getPosts({ page: req.query.page }).then(posts => {
-        return { posts }
-      })
-    }
+    exact: true
   },
   {
     path: '/posts/:id',
     component: loadablePost,
-    exact: true,
-    getServerSideData(req) {
-      return getPost(req.params.id).then(post => {
-        return { post }
-      })
-    }
+    exact: true
   },
   {
     path: '*',
-    component: loadableNotFound,
-    getServerSideData() {}
+    component: loadableNotFound
   }
 ]
