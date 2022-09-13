@@ -3,7 +3,7 @@ import { useQuery, gql } from '@apollo/client'
 import { useUrlMapper } from '@/hooks/useUrlMapper'
 import s from './style.css'
 
-const getPost = gql`
+export const getPost = gql`
   query Post($postId: Int) {
     post(id: $postId) {
       id
@@ -14,14 +14,15 @@ const getPost = gql`
 `
 const Post = () => {
   const { params } = useUrlMapper()
-  const { data, loading, error } = useQuery(getPost, {
+  const { loading, ...rest } = useQuery(getPost, {
     ssr: true,
     variables: {
       postId: Number(params.id)
     }
   })
-  if (!data || loading) return <h2>Loading</h2>
-  const { post } = data
+  console.log(rest, 'rest')
+  if (!rest.data || loading) return <h2>Loading</h2>
+  const { post } = rest.data
   return (
     <div className={s.post}>
       <p className={s.title}>Post Widget</p>

@@ -39,6 +39,7 @@
     "null-loader": "^4.0.1",
     "sass-loader": "^11.1.1",
     "terser-webpack-plugin": "^5.1.4",
+    "waait": "^1.0.5",
     "webpack": "^5.68.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2",
