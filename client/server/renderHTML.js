@@ -1,8 +1,8 @@
 export const renderHTML = ({ app, state, chunkExtractor }) => {
-  const scriptTags = chunkExtractor.getScriptTags()
-  const linkTags = chunkExtractor.getLinkTags()
-  const styleTags = chunkExtractor.getStyleTags()
-  return `
+    const scriptTags = chunkExtractor.getScriptTags();
+    const linkTags = chunkExtractor.getLinkTags();
+    const styleTags = chunkExtractor.getStyleTags();
+    return `
     <!DOCTYPE html>
     <html lang="en">
       <head>
@@ -17,12 +17,12 @@ export const renderHTML = ({ app, state, chunkExtractor }) => {
         <div id="root">${app}</div>
         <script>
           window.__APOLLO_STATE__=${JSON.stringify(state).replace(
-            /</g,
-            '\\u003c'
+              /</g,
+              '\\u003c'
           )};
         </script>        
         ${scriptTags}
       </body>
     </html>
-    `
-}
+    `;
+};

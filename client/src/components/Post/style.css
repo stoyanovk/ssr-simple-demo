@@ -1,35 +1,35 @@
 .post {
-  width: 400px;
+    width: 400px;
 }
 .title {
-  font-size: 18px;
-  text-transform: uppercase;
-  font-weight: bold;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 .body {
-  padding: 20px;
-  border-radius: 5px;
-  background-color: #673ab7;
-  color: #fff;
-  text-align: left;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #673ab7;
+    color: #fff;
+    text-align: left;
 }
 
 .bodyTitle {
-  font-size: 14px;
-  margin: 0;
-  line-height: 1.5;
-  font-weight: bold;
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.5;
+    font-weight: bold;
 }
 
 .description {
-  margin: 10px 0 0 0;
-  font-size: 12px;
-  line-height: 1.5;
-  margin-bottom: 10px;
-  font-weight: 300;
+    margin: 10px 0 0 0;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    font-weight: 300;
 }
 
 .mb {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }

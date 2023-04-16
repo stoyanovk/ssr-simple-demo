@@ -1,14 +1,14 @@
 module.exports = {
-  presets: [
-    [
-      '@babel/preset-env',
-      {
-        targets: {
-          esmodules: true
-        }
-      }
+    presets: [
+        [
+            '@babel/preset-env',
+            {
+                targets: {
+                    esmodules: true,
+                },
+            },
+        ],
+        '@babel/react',
     ],
-    '@babel/react'
-  ],
-  plugins: ['@loadable/babel-plugin', 'babel-plugin-webpack-alias']
-}
+    plugins: ['@loadable/babel-plugin', 'babel-plugin-webpack-alias'],
+};
