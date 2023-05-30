@@ -1,7 +1,7 @@
 import React from 'react';
 import { getButtons } from './createButtons';
 import { buttons } from './view';
-import s from './style.css';
+import s from './style.css'
 
 export const Pagination: React.FC<{
     perPage: number;

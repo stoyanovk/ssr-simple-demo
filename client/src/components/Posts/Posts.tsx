@@ -19,7 +19,7 @@ const Posts = () => {
     const { query } = useUrlMapper();
     const generateUrl = useGenerateUrl();
     const currentPage = Number(query.page) || 1;
-    const { data } = useQuery(getPosts, {
+    const { data, loading } = useQuery(getPosts, {
         ssr: true,
         variables: {
             page: currentPage,

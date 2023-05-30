@@ -8,7 +8,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const BundleAnalyzerPlugin =
     require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const { InjectManifest } = require('workbox-webpack-plugin');
+// const { InjectManifest } = require('workbox-webpack-plugin');
 
 const getPlugins = ({ isProd, analyze }) => {
     const plugins = [
@@ -19,9 +19,9 @@ const getPlugins = ({ isProd, analyze }) => {
                 : 'build/styles.css',
         }),
 
-        new InjectManifest({
-            swSrc: './src/service-worker.js',
-        }),
+        // new InjectManifest({
+        //     swSrc: './src/service-worker.js',
+        // }),
 
         // copy static files from `src` to `dist`
         new CopyWebpackPlugin({
@@ -57,7 +57,7 @@ module.exports = (env, argv) => {
     return {
         // entry files
         entry: [
-            './src/index.js', // react
+            './src/index.tsx', // react
         ],
 
         // output files and chunks
@@ -72,6 +72,11 @@ module.exports = (env, argv) => {
             rules: [
                 {
                     test: /\.jsx?$/,
+                    exclude: /node_modules/,
+                    use: ['babel-loader'],
+                },
+                {
+                    test: /\.tsx?$/,
                     exclude: /node_modules/,
                     use: ['babel-loader'],
                 },
@@ -124,7 +129,7 @@ module.exports = (env, argv) => {
                 '@': path.resolve(__dirname, 'src'),
             },
 
-            extensions: ['.js', '.jsx', '.scss'],
+            extensions: ['.js', '.jsx', '.scss', '.tsx', '.ts'],
         },
 
         // webpack optimizations

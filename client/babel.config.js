@@ -9,6 +9,7 @@ module.exports = {
             },
         ],
         '@babel/react',
+        '@babel/preset-typescript',
     ],
     plugins: ['@loadable/babel-plugin', 'babel-plugin-webpack-alias'],
 };

@@ -26,6 +26,11 @@ module.exports = {
                 use: 'babel-loader',
             },
             {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: 'babel-loader',
+            },
+            {
                 test: ignoreRegExp,
                 use: 'null-loader',
             },
@@ -54,7 +59,7 @@ module.exports = {
             '@': path.resolve(__dirname, 'src'),
         },
         // file extensions
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
 
     devtool: 'source-map',
